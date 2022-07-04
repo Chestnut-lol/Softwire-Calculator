@@ -6,7 +6,10 @@ namespace Calculator
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            string input = Console.ReadLine();
+            double radius = Double.Parse(input);
+            double area = Math.PI * (radius * radius);
+            Console.WriteLine(area);
         }
     }
 }
