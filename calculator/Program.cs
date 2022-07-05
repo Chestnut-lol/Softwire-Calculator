@@ -4,6 +4,12 @@ namespace Calculator
 {
     class Program
     {
+        static int GetIntInput(string msg)
+        {
+            Console.Write(msg);
+            string ans = Console.ReadLine();
+            return int.Parse(ans);
+        }
         static void PrintWelcomeMsg()
         {
             Console.WriteLine("Welcome!");
@@ -18,9 +24,7 @@ namespace Calculator
             int[] nums = new int[cnt];
             for (int i = 0; i < cnt; i++)
             {
-                Console.WriteLine("Please enter a number: ");
-                string input = Console.ReadLine();
-                int num = int.Parse(input);
+                int num = GetIntInput("Please Enter a number: ");
                 nums[i] = num;
             }
             
