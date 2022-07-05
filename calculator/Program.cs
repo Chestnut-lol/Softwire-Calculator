@@ -25,7 +25,7 @@ namespace Calculator
             Console.WriteLine("Welcome!");
             Console.WriteLine("================");
         }
-        static void PerformCalculation()
+        static void DoOneNumCalc()
         {
             Console.WriteLine("Please enter an operator: ");
             string op = Console.ReadLine();
@@ -62,12 +62,50 @@ namespace Calculator
 
         }
 
+        static DateTime GetDate()
+        {
+            Console.WriteLine("Enter a date (DD/MM/YY): ");
+            DateTime answer;
+            string ans = Console.ReadLine();
+            if (DateTime.TryParse(ans, out answer)){}
+            else
+            {
+                Console.WriteLine("Invalid input! Try again.");
+                answer = GetDate();
+            }
+
+            return answer;
+        }
+        static void DoOneDateCalc()
+        {
+
+            DateTime date = GetDate();
+            int NumOfDays = GetIntInput("Enter number of days to add: ");
+            Console.WriteLine($"The answer is: {date.AddDays(NumOfDays).ToShortDateString()}");
+        }
+
+        static int AskForCalcMode()
+        {
+            return GetIntInput("Which calculator mode do you want? \n" +
+                        "1) Numbers \n" +
+                        "2) Dates \n");
+        }
+        private const int NumCalc = 1;
+        private const int DateCalc = 2;
         static void Main(string[] args)
         {
             PrintWelcomeMsg();
             while (true)
             {
-                PerformCalculation();
+                int CalcMode = AskForCalcMode();
+                if (CalcMode == NumCalc)
+                {
+                    DoOneNumCalc();
+                }
+                else
+                {
+                    DoOneDateCalc();
+                }
             }
         }
     }
