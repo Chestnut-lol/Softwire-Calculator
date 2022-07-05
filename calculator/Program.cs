@@ -8,7 +8,17 @@ namespace Calculator
         {
             Console.Write(msg);
             string ans = Console.ReadLine();
-            return int.Parse(ans);
+            int answer;
+            if (int.TryParse(ans, out answer))
+            {
+            }
+            else
+            {
+                Console.WriteLine("Invalid answer! Try again.");
+                answer = GetIntInput(msg);
+            }
+
+            return answer;
         }
         static void PrintWelcomeMsg()
         {
