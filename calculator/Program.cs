@@ -49,12 +49,16 @@ namespace Calculator
             }
                 
             Console.WriteLine(ans);
+
         }
 
         static void Main(string[] args)
         {
             PrintWelcomeMsg();
-            PerformCalculation();
+            while (true)
+            {
+                PerformCalculation();
+            }
         }
     }
 }
