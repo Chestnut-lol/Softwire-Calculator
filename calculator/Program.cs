@@ -16,13 +16,12 @@ namespace Calculator
                 Console.WriteLine("Please enter a number: ");
                 string input = Console.ReadLine();
                 int num = int.Parse(input);
-                nums.Add(num);
+                nums[i] = num;
             }
             
             int ans = 0;
             foreach(int num in nums)
             {
-                Console.WriteLine(num);
                 switch (op)
                 {
                     case "+":
