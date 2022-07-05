@@ -4,7 +4,12 @@ namespace Calculator
 {
     class Program
     {
-        static void Main(string[] args)
+        static void PrintWelcomeMsg()
+        {
+            Console.WriteLine("Welcome!");
+            Console.WriteLine("================");
+        }
+        static void PerformCalculation()
         {
             Console.WriteLine("Please enter an operator: ");
             string op = Console.ReadLine();
@@ -40,6 +45,12 @@ namespace Calculator
             }
                 
             Console.WriteLine(ans);
+        }
+
+        static void Main(string[] args)
+        {
+            PrintWelcomeMsg();
+            PerformCalculation();
         }
     }
 }
