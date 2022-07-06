@@ -1,10 +1,12 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using Calculator;
+
 namespace Calculator
 {
-    class Program
+    class Utilities
     {
-        static int GetIntInput(string msg)
+        public static int GetIntInput(string msg)
         {
             Console.Write(msg);
             string ans = Console.ReadLine();
@@ -15,17 +17,15 @@ namespace Calculator
             else
             {
                 Console.WriteLine("Invalid answer! Try again.");
-                answer = GetIntInput(msg);
+                answer = Utilities.GetIntInput(msg);
             }
 
             return answer;
         }
-        static void PrintWelcomeMsg()
-        {
-            Console.WriteLine("Welcome!");
-            Console.WriteLine("================");
-        }
-        static void DoOneNumCalc()
+    }
+    class NumCalc
+    {
+        public static void DoOneNumCalc()
         {
             Console.WriteLine("Please enter an operator: ");
             string op = Console.ReadLine();
@@ -34,7 +34,7 @@ namespace Calculator
             int[] nums = new int[cnt];
             for (int i = 0; i < cnt; i++)
             {
-                int num = GetIntInput("Please Enter a number: ");
+                int num = Utilities.GetIntInput("Please Enter a number: ");
                 nums[i] = num;
             }
             
@@ -61,7 +61,10 @@ namespace Calculator
             Console.WriteLine(ans);
 
         }
+    }
 
+    class DateCalc
+    {
         static DateTime GetDate()
         {
             Console.WriteLine("Enter a date (DD/MM/YY): ");
@@ -76,37 +79,49 @@ namespace Calculator
 
             return answer;
         }
-        static void DoOneDateCalc()
+        public static void DoOneDateCalc()
         {
 
             DateTime date = GetDate();
-            int NumOfDays = GetIntInput("Enter number of days to add: ");
+            int NumOfDays = Utilities.GetIntInput("Enter number of days to add: ");
             Console.WriteLine($"The answer is: {date.AddDays(NumOfDays).ToShortDateString()}");
         }
-
+        
+    }
+}
+    public class Program
+    {
+        
+        static void PrintWelcomeMsg()
+        {
+            Console.WriteLine("Welcome!");
+            Console.WriteLine("================");
+        }
+        
         static int AskForCalcMode()
         {
-            return GetIntInput("Which calculator mode do you want? \n" +
+            return Utilities.GetIntInput("Which calculator mode do you want? \n" +
                         "1) Numbers \n" +
                         "2) Dates \n");
         }
-        private const int NumCalc = 1;
-        private const int DateCalc = 2;
+        private const int NUMCALC = 1;
+        private const int DATECALC = 2;
         static void Main(string[] args)
         {
             PrintWelcomeMsg();
             while (true)
             {
                 int CalcMode = AskForCalcMode();
-                if (CalcMode == NumCalc)
+                if (CalcMode == NUMCALC)
                 {
-                    DoOneNumCalc();
+                    NumCalc.DoOneNumCalc();
                 }
                 else
                 {
-                    DoOneDateCalc();
+                    DateCalc.DoOneDateCalc();
                 }
             }
         }
     }
-}
+
+    
