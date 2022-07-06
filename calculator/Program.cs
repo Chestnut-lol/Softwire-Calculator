@@ -1,6 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using System.IO.Compression;
 using Calculator;
+using Microsoft.VisualBasic.CompilerServices;
 
 namespace Calculator
 {
@@ -23,13 +25,58 @@ namespace Calculator
             return answer;
         }
     }
+
     class NumCalc
     {
+        static string GetOperator()
+        {
+            string[] ops = { "+", "*" };
+            Console.Write("Which operator would you like to use? (Only support +, *)");
+            string op = Console.ReadLine();
+            if (ops.Contains(op))
+            {
+                return op;
+            }
+
+            return GetOperator();
+        }
+
+        private static List<int> GetNums(bool isDiv)
+        {
+            List<int> nums = new List<int>();
+            while (true)
+            {
+                Console.Write("Enter number (Press enter to exit):");
+                string ans = Console.ReadLine();
+                if (ans == "")
+                {
+                    return nums;
+                }
+
+                if (int.TryParse(ans, out int num))
+                {
+                    if ((isDiv) && (num == 0) && (nums.Count > 0))
+                    {
+                        Console.WriteLine("Division by 0! Input ignored");
+                    }
+
+                    else {
+                        nums.Add(num);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input, input ignored.");
+                }
+            }
+        }
+
+
         public static void DoOneNumCalc()
         {
-            Console.WriteLine("Please enter an operator: ");
-            string op = Console.ReadLine();
-            Console.WriteLine($"How many numbers do you want to {op}?");
+
+            string op = GetOperator();
+            Console.WriteLine($"How many numbers do you want to {op}? ");
             int cnt = int.Parse(Console.ReadLine());
             int[] nums = new int[cnt];
             for (int i = 0; i < cnt; i++)
@@ -61,6 +108,24 @@ namespace Calculator
             Console.WriteLine(ans);
 
         }
+
+        public static void DoNumCalcWithLst()
+        {
+            string op = GetOperator();
+
+            List<int> nums = GetNums(op=="/");
+
+            if (op == "+")
+            {
+                Console.WriteLine("Answer is: " + nums.Sum().ToString());
+            }
+            else if (op == "*")
+            {
+                int ans = nums.Aggregate(1, (a, b) => a * b, x => x);
+                Console.WriteLine("Answer is: " + ans.ToString());
+            }
+            
+        }
     }
 
     class DateCalc
@@ -76,9 +141,13 @@ namespace Calculator
                 Console.WriteLine("Invalid input! Try again.");
                 answer = GetDate();
             }
+            
 
             return answer;
         }
+
+        
+
         public static void DoOneDateCalc()
         {
 
@@ -88,8 +157,7 @@ namespace Calculator
         }
         
     }
-}
-    public class Program
+    public class NormalCalculator
     {
         
         static void PrintWelcomeMsg()
@@ -106,13 +174,13 @@ namespace Calculator
         }
         private const int NUMCALC = 1;
         private const int DATECALC = 2;
-        static void Main(string[] args)
+        public static void Run()
         {
             PrintWelcomeMsg();
             while (true)
             {
-                int CalcMode = AskForCalcMode();
-                if (CalcMode == NUMCALC)
+                int calcMode = AskForCalcMode();
+                if (calcMode == NUMCALC)
                 {
                     NumCalc.DoOneNumCalc();
                 }
@@ -123,5 +191,49 @@ namespace Calculator
             }
         }
     }
+
+    public class CalculatorUsingCollections
+    {
+        static void PrintWelcomeMsg()
+        {
+            Console.WriteLine("Welcome!");
+            Console.WriteLine("================");
+        }
+        static int AskForCalcMode()
+        {
+            return Utilities.GetIntInput("Which calculator mode do you want? \n" +
+                                         "1) Numbers \n" +
+                                         "2) Dates \n");
+        }
+        private const int NUMCALC = 1;
+        private const int DATECALC = 2;
+        public static void Run()
+        {
+            PrintWelcomeMsg();
+            while (true)
+            {
+                int calcMode = AskForCalcMode();
+                if (calcMode == NUMCALC)
+                {
+                    NumCalc.DoNumCalcWithLst();
+                }
+                else
+                {
+                    DateCalc.DoOneDateCalc();
+                }
+            }
+        }
+        
+    }
+
+    public class Program
+    {
+        static void Main(string[] args)
+        {
+            CalculatorUsingCollections.Run();
+        }
+    }
+}
+    
 
     
